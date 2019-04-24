@@ -10,7 +10,7 @@
 ![](https://img.shields.io/badge/mysql-✓-blue.svg)
 
 You can find a related post for this repository [here](https://medium.com/@xoor/jwt-authentication-service-44658409e12c).
-
+# แก้ secret-key เป็น 12345678 หรืออื่น ๆ ก่อนรัน
 # File structure
 
 ```
