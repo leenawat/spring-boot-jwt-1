@@ -3,12 +3,16 @@ package murraco.controller;
 import io.swagger.annotations.*;
 import murraco.dto.UserDataDTO;
 import murraco.dto.UserResponseDTO;
+import murraco.dto.UserSignupDTO;
+import murraco.model.Role;
 import murraco.model.User;
 import murraco.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,6 +38,17 @@ public class UserController {
         return userService.signin(username, password);
     }
 
+//    @PostMapping("/signup")
+//    @ApiOperation(value = "${UserController.signup}")
+//    @ApiResponses(value = {//
+//            @ApiResponse(code = 400, message = "Something went wrong"), //
+//            @ApiResponse(code = 403, message = "Access denied"), //
+//            @ApiResponse(code = 422, message = "Username is already in use"), //
+//            @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
+//    public String signup(@ApiParam("Signup User") @RequestBody UserDataDTO user) {
+//        return userService.signup(modelMapper.map(user, User.class));
+//    }
+    
     @PostMapping("/signup")
     @ApiOperation(value = "${UserController.signup}")
     @ApiResponses(value = {//
@@ -41,8 +56,10 @@ public class UserController {
             @ApiResponse(code = 403, message = "Access denied"), //
             @ApiResponse(code = 422, message = "Username is already in use"), //
             @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
-    public String signup(@ApiParam("Signup User") @RequestBody UserDataDTO user) {
-        return userService.signup(modelMapper.map(user, User.class));
+    public String signup(@ApiParam("Signup User") @RequestBody UserSignupDTO user) {
+    	User u = modelMapper.map(user, User.class);
+    	u.setRoles(Arrays.asList(Role.ROLE_CLIENT));
+        return userService.signup(u);
     }
 
     @DeleteMapping(value = "/{username}")
